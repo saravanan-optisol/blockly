@@ -1,0 +1,8 @@
+a{
+  text-decoration: none;
+  color: black;
+}
+.blocklyPath{
+    cursor: pointer;
+    background-color: red;
+}
