@@ -1,17 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import Styled from 'styled-components'
 import Blockly from "node-blockly/browser";
 import BlocklyDrawer, { Block, Category } from "react-blockly-drawer";
 import './App.css'
 
 class Main extends Component {
-    constructor(){
-        super()
-
-        this.state = {
-            data: '',
-            val: 'asdfasdfasfd'
-        }
+    state = {
+        data: '',
+        name: '',
+        id: ''
     }
 
     componentDidUpdate(){
@@ -19,58 +16,59 @@ class Main extends Component {
         console.log(this.state.data.inputList)
     }
     render() {
-        const onclickHandeler = (nodevalue) =>{
+        const onclickHandeler = (nodedata, id,name) =>{
             this.setState({
-                data: nodevalue
-              }) 
-
-            console.log(Blockly.mainWorkspace)
+                data: nodedata,
+                id: id,
+                name: name
+            })
         }
+
         Blockly.Blocks['text'] = {
             init: function () {
-            this.appendValueInput("text")
-                .setCheck("String")
-                .appendField("Hello");
-            this.setColour(20);
-            this.setTooltip('Returns number of letters in the provided text.');
-            this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+                this.appendValueInput("text")
+                    .setCheck("String")
+                    .appendField("Hello");
+                this.setColour(20);
+                this.setTooltip('Returns number of letters in the provided text.');
+                this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
             },
-            onchange: function (event) {
-            if (event.type === 'ui') {
-                console.log('onclick', this);
-                onclickHandeler(this);
-            }
+            onchange: function (event, id = '001', name = 'blueblock', description='asdfadsfdasfdd') {
+                if (event.type === 'ui') {
+                    console.log('onclick', this, name, id);
+                    onclickHandeler(this, id, name);
+                }
             } 
         }
-          const blockdata = {
-              "name": "blueblock",
-            "type": "blueblock",
-            "lastDummyAlign0": "RIGHT",
-            "message0": "bluely",
-            "inputsInline": false,
-            "previousStatement": "Number",
-            "nextStatement": "String",
-            "comment": "adsfdsfss",
-            "id":"00001",
-            "colour": 160,
-            "tooltip": "adsfdeewrwerdsdsfadfeedfdeesddfdfd",
-            "helpUrl": "http://www.example.com/"
-          }
+
+        const blockdata = {
+        "name": "blueblock",
+        "type": "blueblock",
+        "lastDummyAlign0": "RIGHT",
+        "message0": "bluely",
+        "inputsInline": false,
+        "previousStatement": "Number",
+        "nextStatement": "String",
+        "comment": "adsfdsfss",
+        "id":"00001",
+        "colour": 160,
+        "tooltip": "adsfdeewrwerdsdsfadfeedfdeesddfdfd",
+        "helpUrl": "http://www.example.com/"
+        }
 
         Blockly.Blocks['blueblock'] = {
             init: function() {
             this.jsonInit(blockdata);
             },
-            onchange: function (event) {
+            onchange: function (event, id = '002', name = 'greeblock', description='qerqwerqwer') {
                 if (event.type === 'ui') {
-                    console.log('onclick', this);
-                    onclickHandeler(this);
+                    console.log('onclick', this, name, id);
+                    onclickHandeler(this, id, name);
                 }
-            } 
-          };
+            }
+        };
         
         Blockly.JavaScript['text'] = function (block) {
-            var text = Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
             // TODO: Assemble JavaScript into code variable.
             var code = '...;\n';
             return code;
@@ -80,7 +78,21 @@ class Main extends Component {
             // TODO: Assemble JavaScript into code variable.
             var code = '...;\n';
             return code;
-          };
+        };
+
+        function onFirstComment(event) {
+            if (event.type == Blockly.Events.BLOCK_CHANGE &&
+                event.element == 'comment' &&
+                !event.oldValue && event.newValue) {
+                alert('Congratulations on creating your first comment!')
+                workspace.removeChangeListener(onFirstComment);
+            }
+        }
+
+        workspace.addChangeListener(onFirstComment);
+
+        var flyoutWorkspace = yourWorkspace.getFlyout().getWorkspace();
+        flyoutWorkspace.addChangeListener(onFirstComment);
 
     return (
         <HomeDiv className='main-div'>
@@ -99,12 +111,12 @@ class Main extends Component {
                 {
                     this.state.data && (
                         <div>
-                            <p><b>Id: </b><span>{this.state.data.id}</span></p>
-                            {
+                            <p><b>Id: </b><span>{this.state.id}</span></p>
+{/*                             {
                                 this.state.data.inputList.map((data) =>(
                                     <p><b>Name: </b><span>{data.name}</span></p>
-                            ))}
-                            {/* <p><b>Name: </b><span>{this.state.data.inputList}</span></p> */}
+                            ))} */}
+                            <p><b>Name: </b><span>{this.state.name}</span></p>
                             <p><b>Tool Tip: </b><span>{this.state.data.tooltip}</span></p>
                             <p><b>Help Url: </b><span>{this.state.data.helpUrl}</span></p>
                             <p><b>Color: </b><span>{this.state.data.style.colourPrimary}</span></p>
