@@ -19,14 +19,12 @@ class Main extends Component {
         console.log(this.state.data.inputList)
     }
     render() {
-
         const onclickHandeler = (nodevalue) =>{
             this.setState({
                 data: nodevalue
               }) 
-        }
-        const valfunc = () =>{
-            return 'adfasdfasdf'
+
+            console.log(Blockly.mainWorkspace)
         }
         Blockly.Blocks['text'] = {
             init: function () {
@@ -44,21 +42,32 @@ class Main extends Component {
             }
             } 
         }
-        Blockly.Blocks['test'] = {
-            init: function () {
-            this.appendValueInput("math_number")
-                .setCheck("String")
-                .appendField("Hello");
-            this.setColour(20);
-            this.setHelpUrl("");
+          const blockdata = {
+              "name": "blueblock",
+            "type": "blueblock",
+            "lastDummyAlign0": "RIGHT",
+            "message0": "bluely",
+            "inputsInline": false,
+            "previousStatement": "Number",
+            "nextStatement": "String",
+            "comment": "adsfdsfss",
+            "id":"00001",
+            "colour": 160,
+            "tooltip": "adsfdeewrwerdsdsfadfeedfdeesddfdfd",
+            "helpUrl": "http://www.example.com/"
+          }
+
+        Blockly.Blocks['blueblock'] = {
+            init: function() {
+            this.jsonInit(blockdata);
             },
             onchange: function (event) {
-            if (event.type === 'ui') {
-                console.log('onclick', this);
-                onclickHandeler(this);
-            }
-            }
-        }
+                if (event.type === 'ui') {
+                    console.log('onclick', this);
+                    onclickHandeler(this);
+                }
+            } 
+          };
         
         Blockly.JavaScript['text'] = function (block) {
             var text = Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
@@ -66,6 +75,13 @@ class Main extends Component {
             var code = '...;\n';
             return code;
         };
+
+        Blockly.JavaScript['blueblock'] = function(block) {
+            // TODO: Assemble JavaScript into code variable.
+            var code = '...;\n';
+            return code;
+          };
+
     return (
         <HomeDiv className='main-div'>
             <BlocklyDiv className='blockly-drawer'>
@@ -74,8 +90,8 @@ class Main extends Component {
                     <Block type="math_number" />
                 </Category>
                 <Category name="Category 2">
-                    <Block type="text" />
-                    <Block type="text" />
+                    <Block type="blueblock" />
+                    <Block type="colour_picker" />
                 </Category>
             </BlocklyDiv>
             <PropertyDiv className='property-panel'>
