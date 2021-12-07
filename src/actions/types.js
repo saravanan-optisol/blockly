@@ -1,0 +1,2 @@
+export const UPDATE_PROPERTY = 'UPDATE_PROPERTY';
+export const GET_PROPERTY = 'GET_PROPERTY';

@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Blockly from "node-blockly/browser";
-
+import Block from './components/Block'
+import Property from './components/Property'
+import Home from './components/Home'
 import Main from "./Main";
-import BlocklyDrawer, { Block, Category } from "react-blockly-drawer";
-import Styled from 'styled-components'
 
 ReactDOM.render(
- <Main />
+ <Home />
 ,
   document.getElementById("root")
 );

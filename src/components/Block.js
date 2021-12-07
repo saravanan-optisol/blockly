@@ -1,29 +1,72 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom';
+import Blockly from 'node-blockly/browser'; 
 
-class Block extends Component {
+import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
+class BlockCom extends Component {
     render() {
-        
+        const helloWorld =  {
+            name: 'HelloWorld',
+            category: 'Demo',
+            block: {
+              init: function () {
+                this.jsonInit({
+                  message0: 'Hello %1',
+                  args0: [
+                    {
+                      type: 'field_input',
+                      name: 'NAME',
+                      check: 'String',
+                    },
+                  ],
+                  output: 'String',
+                  colour: 160,
+                  tooltip: 'Says Hello',
+                });
+              },
+            },
+            generator: (block) => {
+              const message = `'${block.getFieldValue('NAME')}'` || '\'\'';
+              const code = `console.log('Hello ${message}')`;
+              return [code, Blockly.JavaScript.ORDER_MEMBER];
+            },
+          };
+
+          function onFirstComment(event) {
+            if (event.type == Blockly.Events.BLOCK_CHANGE &&
+                event.element == 'comment' &&
+                !event.oldValue && event.newValue) {
+              alert('Congratulations on creating your first comment!')
+            }
+          }
         return (
             <div>
-                <div id="editor"></div>
-  <xml id="toolbox">
-    <category name="category1">
-        <nav>
-            <block type="text" id="node" class="node"></block>
-        </nav>
-        <block type="text" id="node" class="node"></block>
-        <block type="controls_if"></block>
-        <block type="controls_repeat_ext"></block>
-        <block type="logic_compare" onclick="func()"></block>
-        <block type="math_number"></block>
-        <block type="math_arithmetic"></block>
-        <block type="text"></block>
-        <block type="text_print"></block>
-    </category> 
-  </xml>
+                <BlocklyDrawer
+      /* tools={[helloWorld]}
+      onChange={(code, workspace) => {
+        console.log(code, workspace);
+        workspace.addChangeListener(onFirstComment);
+      }}
+      language={Blockly.JavaScript}
+      appearance={
+        {
+          categories: {
+            Demo: {
+              colour: '270'
+            },
+          },
+        }
+      } */
+    >
+      <Category name="Variables" custom="VARIABLE" />
+      <Category name="Values">
+        <Block type="math_number" />
+        <Block type="text" />
+      </Category>
+    </BlocklyDrawer>
             </div>
         )
     }
 }
 
-export default Block
+export default BlockCom;
