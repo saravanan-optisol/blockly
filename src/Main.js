@@ -1,23 +1,33 @@
-import React, { Component} from 'react'
+import React, {useEffect, Component} from 'react'
 import Styled from 'styled-components'
 import Blockly from "node-blockly/browser";
-import BlocklyDrawer, { Block, Category } from "react-blockly-drawer";
+import BlocklyDrawer, { Block, Category} from "react-blockly-drawer";
 import './App.css'
-import Property from './components/Property'
+import  blocksdata  from './blockdata/blocks';
 import { updateProperty } from './actions/property';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
 const Main = ({updateProperty}) => {
-        
         const onclickHandeler = (data) =>{
-            console.log('click handler')
-            updateProperty(data);
+            console.log('onclidk')
+            updateProperty(data)
         }
 
+        const imgclick = (e) =>{
+            console.log('imgclick')
+            updateProperty(e);
+        }
+
+        const text_1 = blocksdata.text_1
+        const text_2 = blocksdata.text_2
+        const text_3 = blocksdata.text_3
+        // const text_2 = JSON.stringify({ id: `0002`, name: `text_2`,description: `text_2 block type text` })
+        // const text_3 = JSON.stringify({ id: `0003`, name: `text_3`, description: `text_3 block type text` })
+
         Blockly.Blocks['text_1'] = {
-            data: JSON.stringify({ id: `0001`, name: `text_1`, description: `text_1 block type text` }),
+            data: text_1,
             init: function () {
                 this.appendValueInput("text")
                     .setCheck("String")
@@ -25,17 +35,23 @@ const Main = ({updateProperty}) => {
                 this.setColour(20);
                 this.setTooltip('Returns number of letters in the provided text.');
                 this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+                this.appendDummyInput()
+                    .appendField(new Blockly.FieldImage(
+                    "https://www.gstatic.com/codesite/ph/images/star_on.gif",
+                    15,
+                    14,
+                    "",
+                    imgclick(text_1)));
                  this.setOnChange((changeEvent) =>{
-                     console.log(changeEvent.type)
-                     console.log(changeEvent.element)
                     if(changeEvent.type === 'ui' && changeEvent.element === 'click'){
-                        console.log(changeEvent.type, changeEvent.element)
-                        console.log(this)
-                        const data = JSON.parse(this.data)
-                        onclickHandeler(data)
+                        // const data = JSON.parse(this.data)
+                        onclickHandeler(text_1)
                     }   
                 }) 
             },
+            iconClick: function (e) {
+                console.log('clicks')
+            }
             /* onchange: function (event) {
                  if(Blockly.Events.move === event.type) {
                     console.log(this)   
@@ -64,12 +80,17 @@ const Main = ({updateProperty}) => {
             data: JSON.stringify({ id: `0002`, name: `text_2`,description: `text_2 block type text` }),
             init: function() {
             this.jsonInit(blockdata);
+            this.appendDummyInput()
+                    .appendField(new Blockly.FieldImage(
+                    "https://www.gstatic.com/codesite/ph/images/star_on.gif",
+                    15,
+                    15,
+                    "*",
+                    imgclick(text_2)));
             this.setOnChange((changeEvent) =>{
                 if(changeEvent.type === 'ui' && changeEvent.element === 'click'){
-                    console.log(this)
-                    console.log(this.data)
-                    const data = JSON.parse(this.data)
-                    onclickHandeler(data)
+                    // const data = JSON.parse(this.data)
+                    onclickHandeler(text_2)
                 }   
             }) 
             },/* 
@@ -91,12 +112,17 @@ const Main = ({updateProperty}) => {
             this.setColour(20);
             this.setTooltip('Returns number of letters in the provided text.');
             this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+            this.appendDummyInput()
+                    .appendField(new Blockly.FieldImage(
+                    "https://www.gstatic.com/codesite/ph/images/star_on.gif",
+                    15,
+                    16,
+                    "*",
+                    imgclick(text_3)));
             this.setOnChange((changeEvent) =>{
                 if(changeEvent.type === 'ui' && changeEvent.element === 'click'){
-                    console.log(this)
-                    console.log(this.data)
-                    const data = JSON.parse(this.data)
-                    onclickHandeler(data)
+                    // const data = JSON.parse(this.data)
+                    onclickHandeler(text_3)
                 }   
             }) 
             }, /* 
@@ -130,14 +156,11 @@ const Main = ({updateProperty}) => {
     return (
             <BlocklyDiv className='blockly-drawer'>
                 <Category name="Category 1">
-                    <Block type='text' />
                     <Block type="text_1" />
                     <Block type="text_2" />
                 </Category>
                 <Category name="Category 2">
                     <Block type="text_3" />
-                    <Block type="text_1" />
-                    <Block type="text_2" />
                 </Category>
             </BlocklyDiv>
         )
@@ -161,6 +184,10 @@ const BlockDiv  = Styled(Block)`
 `
 
 const BlocklyDiv = Styled(BlocklyDrawer)`
+  width: 70%;
+  height: 100%;
+`
+const MainDiv = Styled(BlocklyDrawer)`
   width: 70%;
   height: 100%;
 `

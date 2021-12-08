@@ -5,9 +5,6 @@ import {
 
 export const updateProperty = (data) => async (dispatch) => {
   try {
-    console.log('action')
-    
-    console.log(data)
     dispatch({
         type: UPDATE_PROPERTY,
         payload: data

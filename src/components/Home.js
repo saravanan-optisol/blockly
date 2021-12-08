@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import BlocklyDrawer, { Block, Category } from 'react-blockly-drawer';
-import Blockly from 'node-blockly/browser'; 
+import Blockly from "node-blockly/browser";
+import BlocklyDrawer, { Block, Category} from "react-blockly-drawer";
 import Styled from 'styled-components'
 import Main from '../Main';
 import Property from './Property'
@@ -11,7 +11,7 @@ const Home = () =>{
   return (
       <Provider store={store}>
         <HomeDiv>
-          <Main/>
+          <Main Blockdata={Blockly, BlocklyDrawer, Block, Category}/>
           <Property />
         </HomeDiv>
       </Provider>

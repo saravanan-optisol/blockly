@@ -5,9 +5,7 @@ import { updateProperty } from '../actions/property';
 import PropTypes from 'prop-types';
 
 const Property = ({property}) => {
-    console.log('property')
-    console.log(property.data) 
-    return (
+    return (    
             <PropertyDiv>
                 {
                     property && (
